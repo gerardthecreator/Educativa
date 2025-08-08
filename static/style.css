@@ -1,27 +1,26 @@
-/* static/style.css (VERSIÓN CON RESPONSIVE CORREGIDO Y PROFESIONAL) */
+/* static/style.css (VERSIÓN DE DISEÑO FLUIDO Y ESCALABLE) */
 
 /* --- 1. Fuentes e Importaciones --- */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Lato:wght@400;700;900&display=swap');
 
-/* --- 2. Variables de Diseño (Tema Moderno) --- */
+/* --- 2. Variables de Diseño --- */
 :root {
-    --font-primary: 'Poppins', sans-serif;
-    --font-display: 'Montserrat', sans-serif;
-    --color-bg: #f8f9fa;
+    --font-primary: 'Roboto', sans-serif;
+    --font-display: 'Lato', sans-serif;
+    
+    --color-bg: #f0f2f5;
     --color-surface: #ffffff;
-    --color-primary: #3d5af1; /* Un azul más vibrante */
-    --color-primary-dark: #304ffe;
-    --color-secondary: #00e676; /* Verde brillante */
-    --color-text: #212529;
-    --color-text-muted: #6c757d;
-    --color-border: #dee2e6;
-    --shadow-sm: 0 2px 4px rgba(0,0,0,0.04);
-    --shadow-md: 0 5px 15px rgba(0,0,0,0.08);
-    --border-radius: 12px;
+    --color-primary: #1877f2; /* Azul tipo Facebook/Meta */
+    --color-primary-dark: #166fe5;
+    --color-secondary: #42b72a; /* Verde para éxito */
+    --color-text: #1c1e21;
+    --color-text-muted: #606770;
+    --color-border: #ccd0d5;
+    --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --border-radius: 8px;
 }
 
-/* --- 3. Reseteo y Estilos Base --- */
+/* --- 3. Configuración Base con Unidades Fluidas --- */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -29,28 +28,30 @@
 }
 
 html {
-    scroll-behavior: smooth;
-    font-size: 16px; /* Base para unidades rem */
+    /* La base de todo el diseño fluido. 1vw = 1% del ancho de la pantalla.
+       Esto hace que el tamaño de la fuente se escale con el ancho de la pantalla. */
+    font-size: 1.2vw;
+    
+    /* Ponemos límites para que no se haga ni demasiado pequeño ni demasiado grande */
+    min-font-size: 14px;
+    max-font-size: 18px;
 }
 
 body {
     font-family: var(--font-primary);
     background-color: var(--color-bg);
     color: var(--color-text);
-    line-height: 1.7;
-    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
 }
 
-/* --- 4. Cabecera y Navegación (CORREGIDO CON FLEXBOX) --- */
+/* --- 4. Cabecera y Navegación (Diseño Fijo) --- */
 header {
     background-color: var(--color-surface);
-    padding: 1rem 5%; /* Padding horizontal para los márgenes invisibles */
+    padding: 0.8rem 5%; /* Padding porcentual */
     display: flex;
-    flex-wrap: wrap; /* Permite que los elementos pasen a la siguiente línea si no caben */
     justify-content: space-between;
     align-items: center;
-    gap: 1rem; /* Espacio entre el logo y la navegación */
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-md);
     border-bottom: 1px solid var(--color-border);
     position: sticky;
     top: 0;
@@ -60,180 +61,138 @@ header {
 header .logo {
     font-family: var(--font-display);
     color: var(--color-primary);
-    font-size: 1.4rem;
+    font-size: 1.8rem; /* rem se basa en el font-size del html, por lo que también escala */
+    font-weight: 900;
     text-decoration: none;
-    font-weight: 800;
 }
 
 header nav {
     display: flex;
     align-items: center;
-    gap: 1rem; /* Espacio entre los enlaces de navegación */
 }
 
 header nav a {
-    color: var(--color-text-muted);
+    color: var(--color-text);
     text-decoration: none;
-    font-weight: 600;
-    font-size: 0.9rem;
-    transition: color 0.3s ease;
-    padding: 0.25rem 0;
+    margin-left: 1.5rem;
+    font-weight: 700;
+    font-size: 1rem;
+    white-space: nowrap; /* Evita que el texto se rompa */
+    transition: color 0.2s;
 }
 
-header nav a:hover {
-    color: var(--color-primary);
-}
+header nav a:hover { color: var(--color-primary); }
 
 header nav .logout-button {
-    font-size: 0.85rem;
-    padding: 0.4rem 0.8rem;
-    border: 1px solid #ff4d4d;
-    color: #ff4d4d;
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
+    padding: 0.5rem 1rem;
     border-radius: 50px;
-    white-space: nowrap; /* Evita que el texto se rompa */
 }
 header nav .logout-button:hover {
-    background-color: #ff4d4d;
+    background-color: var(--color-primary);
     color: white;
 }
 
-/* --- 5. Contenedor Principal (Márgenes Invisibles) --- */
+/* --- 5. Contenedor Principal (Fluido) --- */
 main {
-    width: 100%;
-    max-width: 1200px;
+    width: 90%; /* Ocupa el 90% del ancho de la pantalla */
+    max-width: 1200px; /* Pero con un límite máximo para no estirarse demasiado en pantallas gigantes */
     margin: 2rem auto;
-    padding: 0 5%; /* Padding horizontal que coincide con el header */
 }
 
-/* --- 6. Formularios --- */
+/* --- 6. Formularios (Centrados y Fluidos) --- */
 form {
-    background-color: var(--color-surface);
-    padding: 2.5rem;
+    width: 90%;
+    max-width: 480px;
+    margin: 3rem auto;
+    background: var(--color-surface);
+    padding: 2rem;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-md);
-    max-width: 450px;
-    margin: 3rem auto;
-    border-top: 5px solid var(--color-primary);
+}
+form h2 {
+    font-family: var(--font-display);
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+}
+form input {
+    width: 100%; /* Ocupan todo el ancho del formulario */
+    padding: 1rem;
+    font-size: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+}
+form button {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 6px;
+    background-color: var(--color-primary);
+    color: white;
+    cursor: pointer;
 }
 
-/* --- 7. Dashboard --- */
-.dashboard-header h2 {
-    font-size: 2rem;
-    font-family: var(--font-display);
-    margin-bottom: 0.5rem;
-}
-.dashboard-header p {
-    font-size: 1.1rem;
-    color: var(--color-text-muted);
-}
-.section-title h3 {
-    margin-top: 3rem;
-    font-family: var(--font-display);
-    font-size: 1.6rem;
-}
+/* --- 7. Dashboard (Grid Fluido) --- */
+.dashboard-header h2 { font-size: 2.5rem; }
+.section-title h3 { font-size: 1.8rem; margin-top: 2rem; }
 
 .lessons-grid {
     display: grid;
-    grid-template-columns: 1fr; /* 1 columna por defecto (móviles) */
-    gap: 1.5rem;
-    margin-top: 1.5rem;
-}
-.lesson-card {
-    /* ... Los estilos de las tarjetas de lección se mantienen bien ... */
+    /* Esto es clave: crea columnas de un tamaño mínimo de 300px, 
+       pero que pueden crecer para llenar el espacio. Se ajusta automáticamente. */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem; /* El espacio entre tarjetas también es relativo */
+    margin-top: 1rem;
 }
 
-/* --- 8. Lección --- */
+/* --- 8. Lección (Contenido Fluido) --- */
 .lesson-container {
-    max-width: 800px;
+    width: 90%;
+    max-width: 850px;
     margin: 0 auto;
 }
 .lesson-content-box {
-    background-color: var(--color-surface);
-    padding: 1.5rem;
+    background: var(--color-surface);
+    padding: 5%; /* Padding porcentual */
     border-radius: var(--border-radius);
-    box-shadow: var(--shadow-md);
 }
-.lesson-title {
-    font-family: var(--font-display);
-    font-size: 1.8rem;
-    line-height: 1.3;
-}
-.lesson-text p, .lesson-text li { font-size: 1.05rem; }
+.lesson-title { font-size: 2.8rem; font-family: var(--font-display); line-height: 1.2; }
+.lesson-text p, .lesson-text li { font-size: 1.1rem; }
 .lesson-text .lesson-image { max-width: 100%; height: auto; }
-
 .lesson-navigation {
     display: flex;
-    flex-direction: column; /* Apilados en móviles */
+    justify-content: space-between;
     gap: 1rem;
     margin-top: 2rem;
-}
-.nav-button {
-    text-align: center;
-    padding: 0.8rem 1rem;
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: 600;
-    transition: all 0.3s ease;
 }
 
 /* --- 9. Pie de Página --- */
 footer {
+    width: 90%;
+    max-width: 1200px;
+    margin: 3rem auto;
+    padding: 2rem 0;
     text-align: center;
-    margin-top: 4rem;
-    padding: 2rem 5%;
-    background-color: var(--color-surface);
-    color: var(--color-text-muted);
-    font-size: 0.9rem;
     border-top: 1px solid var(--color-border);
+    color: var(--color-text-muted);
 }
 
-/* ======================================================= */
-/* === MEDIA QUERIES (AQUÍ OCURRE LA MAGIA RESPONSIVE) === */
-/* ======================================================= */
-
-/* Estilos para tablets y pantallas más grandes (a partir de 768px) */
-@media (min-width: 768px) {
-    
-    header {
-        flex-wrap: nowrap; /* Evita que los elementos se envuelvan en pantallas más grandes */
+/* --- 10. No se necesitan Media Queries complejas --- */
+/* El diseño se basa en porcentajes y anchos máximos,
+   por lo que se adapta fluidamente sin necesidad de cambiar el layout.
+   Podemos añadir una media query solo para ajustar la fuente base en pantallas muy pequeñas. */
+@media (max-width: 480px) {
+    html {
+        font-size: 14px; /* Fijamos un tamaño mínimo legible en los teléfonos más pequeños */
     }
-    
-    header nav a {
-        font-size: 1rem;
-        margin-left: 1.5rem;
+    header, main, footer {
+        width: 95%; /* Usamos un poco más de espacio en pantallas muy estrechas */
     }
-    
-    main {
-        margin: 3rem auto;
-    }
-
-    .dashboard-header h2 { font-size: 2.5rem; }
-    .section-title h3 { font-size: 1.8rem; }
-    
-    .lessons-grid {
-        grid-template-columns: repeat(2, 1fr); /* 2 columnas */
-    }
-
-    .lesson-content-box { padding: 2.5rem; }
-    .lesson-title { font-size: 2.5rem; }
-
-    .lesson-navigation {
-        flex-direction: row; /* Lado a lado en pantallas grandes */
-        justify-content: space-between;
+    form {
+        padding: 1.5rem;
     }
 }
-
-/* Estilos para escritorios (a partir de 1024px) */
-@media (min-width: 1024px) {
-
-    .lessons-grid {
-        grid-template-columns: repeat(3, 1fr); /* 3 columnas */
-        gap: 2rem;
-    }
-}
-
-/*
-    (Las reglas para el resto de elementos como .flash, .breadcrumbs, etc.
-    que no he incluido aquí, ya son bastante responsives por naturaleza,
-    pero siéntete libre de copiarlas de la versión anterior si las necesitas.)
-*/
