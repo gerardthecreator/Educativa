@@ -1,10 +1,9 @@
-<!-- templates/quiz.html (CORREGIDO Y FUNCIONAL) -->
+<!-- templates/quiz.html -->
 
 {% extends 'layout.html' %}
 
 {% block content %}
 <div class="quiz-container">
-    <!-- Navegación "Migas de pan" para que el usuario sepa dónde está -->
     <nav class="breadcrumbs">
         <a href="{{ url_for('dashboard') }}">Dashboard</a> &raquo;
         <a href="{{ url_for('view_lesson', subject_slug=subject_name, lesson_slug=lesson.slug) }}">{{ lesson.title }}</a> &raquo;
@@ -18,22 +17,21 @@
 
     <form method="POST" action="{{ url_for('take_quiz', subject_slug=subject_name, lesson_slug=lesson.slug) }}" class="quiz-form">
         
-        {# Iteramos sobre cada pregunta en la lista de preguntas del quiz #}
-        {% for question in quiz.questions %}
+        {# --- BUCLE SIMPLIFICADO Y CORREGIDO --- #}
+        {# Iteramos sobre la nueva variable que nos da el índice (i) y la pregunta (question) #}
+        {% for i, question in enumerated_questions %}
         
             <div class="question-block">
-                
-                {# ESTA ES LA LÍNEA CORREGIDA: Muestra el texto de la pregunta actual #}
                 <p class="question-text">
-                    <strong>Pregunta {{ loop.index }}:</strong> {{ question.text|safe }}
+                    {# Usamos i + 1 para mostrar el número de pregunta (1, 2, 3...) #}
+                    <strong>Pregunta {{ i + 1 }}:</strong> {{ question.text|safe }}
                 </p>
                 
                 <div class="options-group">
-                    {# Iteramos sobre cada opción para la pregunta actual #}
                     {% for option in question.options %}
                     <label class="option-label">
-                        {# El name es único para cada pregunta, usando el índice del bucle exterior #}
-                        <input type="radio" name="question-{{ loop.parent.loop.index0 }}" value="{{ option }}" required>
+                        {# El 'name' del input usa el índice 'i' que ya tenemos. Es mucho más simple y robusto. #}
+                        <input type="radio" name="question-{{ i }}" value="{{ option }}" required>
                         <span>{{ option }}</span>
                     </label>
                     {% endfor %}
@@ -41,6 +39,7 @@
             </div>
         
         {% endfor %}
+        {# --- FIN DEL BUCLE SIMPLIFICADO --- #}
         
         <button type="submit" class="btn btn-primary quiz-submit-btn">Entregar Autoevaluación</button>
     </form>
