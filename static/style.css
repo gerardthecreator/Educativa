@@ -301,3 +301,81 @@ footer p { color: var(--light-text-color); }
     overflow-x: auto;
     padding: 10px 0;
     }
+/* static/style.css (Añadir al final para mejorar el quiz) */
+
+.quiz-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+.quiz-header {
+    text-align: center;
+    margin-bottom: var(--spacing-l);
+}
+.quiz-header h2 {
+    font-family: var(--heading-font);
+    font-size: 2.5rem;
+    color: var(--primary-color);
+}
+
+.quiz-form {
+    background-color: var(--bg-color);
+    padding: var(--spacing-l);
+    border-radius: var(--border-radius-base);
+    box-shadow: var(--shadow-base);
+}
+
+.question-block {
+    margin-bottom: var(--spacing-xl);
+    padding-bottom: var(--spacing-m);
+    border-bottom: 1px solid var(--border-color);
+}
+.question-block:last-of-type {
+    border-bottom: none;
+    margin-bottom: var(--spacing-l);
+}
+
+.question-text {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-m);
+}
+
+.options-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-s);
+}
+
+.option-label {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    background-color: var(--light-bg-color);
+    border-radius: var(--border-radius-base);
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.option-label:hover {
+    border-color: var(--secondary-color);
+    background-color: #e9f4fe;
+}
+
+.option-label input[type="radio"] {
+    margin-right: 1rem;
+    /* Estilos modernos para los radio buttons */
+    accent-color: var(--primary-color);
+    width: 1.2em;
+    height: 1.2em;
+}
+
+.option-label span {
+    font-size: 1.1rem;
+}
+
+.quiz-submit-btn {
+    width: 100%;
+    padding: 1.2rem;
+    font-size: 1.4rem;
+}
