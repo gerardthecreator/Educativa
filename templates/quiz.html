@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="quiz-container">
+    <nav class="breadcrumbs">
+        <a href="{{ url_for('dashboard') }}">Dashboard</a> &raquo;
+        <a href="{{ url_for('view_lesson', subject_slug=subject_name, lesson_slug=lesson.slug) }}">{{ lesson.title }}</a> &raquo;
+        <span>Autoevaluación</span>
+    </nav>
+    
+    <div class="quiz-header">
+        <h2>{{ quiz.title }}</h2>
+        <p>Pon a prueba tus conocimientos sobre la lección. ¡Mucha suerte!</p>
+    </div>
+
+    <form method="POST" class="quiz-form">
+        {% for question in quiz.questions %}
+        <div class="question-block">
+            <p class="question-text"><strong>{{ loop.index }}.</strong> {{ question.text|safe }}</p>
+            <div class="options-group">
+                {% for option in question.options %}
+                <label class="option-label">
+                    <input type="radio" name="question-{{ loop.index0 }}" value="{{ option }}" required>
+                    <span>{{ option }}</span>
+                </label>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary quiz-submit-btn">Entregar Autoevaluación</button>
+    </form>
+</div>
+{% endblock %}
