@@ -13,6 +13,7 @@ import database as db
 db_path = os.path.join('instance', 'panita_ciencia.db')
 if not os.path.exists(db_path):
     print("Base de datos no encontrada. Creando ahora...")
+    # Nos aseguramos de que el directorio 'instance' exista antes de llamar a init_db
     os.makedirs(os.path.dirname(db_path), exist_ok=True)
     db.init_db()
 else:
@@ -177,10 +178,12 @@ def view_lesson(subject_slug, lesson_slug):
         
     all_content = load_content()
     subject_lessons = all_content.get(subject_slug)
-    if not subject_lessons: abort(404)
+    if not subject_lessons:
+        abort(404)
     
     lesson = next((l for l in subject_lessons if l.get('slug') == lesson_slug), None)
-    if not lesson: abort(404)
+    if not lesson:
+        abort(404)
 
     # Lógica para la navegación entre lecciones (anterior/siguiente).
     try:
@@ -199,7 +202,14 @@ def take_quiz(subject_slug, lesson_slug):
         return redirect(url_for('login'))
     
     all_content = load_content()
-    lesson = next((l for s in all_content.values() for l in s if l['slug'] == lesson_slug), None)
+    
+    # --- LÓGICA DE BÚSQUEDA CORREGIDA ---
+    subject_lessons = all_content.get(subject_slug)
+    if not subject_lessons:
+        abort(404) # Si la materia no existe, es un error 404.
+    
+    lesson = next((l for l in subject_lessons if l.get('slug') == lesson_slug), None)
+    # --- FIN DE LA CORRECCIÓN ---
     
     if not lesson or 'quiz' not in lesson:
         flash('Esta lección no tiene una autoevaluación asociada.', 'info')
@@ -220,7 +230,6 @@ def take_quiz(subject_slug, lesson_slug):
         # Guardar o actualizar la nota en la base de datos.
         try:
             conn = db.get_db_connection()
-            # "INSERT OR REPLACE" es un atajo de SQLite que actualiza el registro si ya existe.
             conn.execute('''
                 INSERT INTO grades (user_id, lesson_slug, score, total_questions) VALUES (?, ?, ?, ?)
                 ON CONFLICT(user_id, lesson_slug) DO UPDATE SET score=excluded.score, total_questions=excluded.total_questions, timestamp=CURRENT_TIMESTAMP
