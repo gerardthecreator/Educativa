@@ -1,44 +1,192 @@
-<!-- templates/lesson.html -->
+<!-- templates/lesson.html (COMPLETO CON CANVAS Y MATHJAX) -->
 
 {% extends 'layout.html' %}
 
 {% block content %}
-    <div class="lesson-container">
-        <!-- "Migas de pan" para que el usuario sepa dónde está -->
-        <nav class="breadcrumbs">
-            <a href="{{ url_for('dashboard') }}">Dashboard</a> &raquo;
-            <a href="{{ url_for('dashboard') }}#{{ subject_name }}">{{ subject_name|capitalize }}</a> &raquo;
-            <span>{{ lesson.title }}</span>
-        </nav>
+<div class="lesson-container">
+    <!-- "Migas de pan" para que el usuario sepa dónde está y pueda navegar hacia atrás -->
+    <nav class="breadcrumbs">
+        <a href="{{ url_for('dashboard') }}">Dashboard</a> &raquo;
+        <a href="{{ url_for('dashboard') }}#{{ subject_name }}">{{ subject_name|capitalize }}</a> &raquo;
+        <span>{{ lesson.title }}</span>
+    </nav>
 
-        <article class="lesson-content-box">
-            <h1 class="lesson-title">{{ lesson.title }}</h1>
-            
-            <!-- Contenedor de video (si existe en el JSON) -->
-            {% if lesson.video_url %}
-                <div class="video-container">
-                    <iframe 
-                        src="{{ lesson.video_url }}" 
-                        title="Video de la lección: {{ lesson.title }}" 
-                        frameborder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                        allowfullscreen>
-                    </iframe>
-                </div>
-            {% endif %}
-            
-            <!-- Contenido HTML de la lección -->
-            <div class="lesson-text">
-                {# El filtro |safe es MUY IMPORTANTE. Le dice a Flask que el HTML es seguro y que debe renderizarlo como tal. #}
-                {% for html_block in lesson.content_html %}
-                    {{ html_block|safe }}
-                {% endfor %}
+    <article class="lesson-content-box">
+        <h1 class="lesson-title">{{ lesson.title }}</h1>
+        
+        <!-- Contenedor de video (si existe en el JSON) -->
+        {% if lesson.video_url %}
+            <div class="video-container">
+                <iframe 
+                    src="{{ lesson.video_url }}" 
+                    title="Video de la lección: {{ lesson.title }}" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
             </div>
-        </article>
-
-        <div class="lesson-navigation">
-            {# Aquí podríamos añadir botones de "Lección Anterior" y "Siguiente Lección" en el futuro #}
-            <a href="{{ url_for('dashboard') }}#{{ subject_name }}" class="back-to-subject-button">&larr; Volver a {{ subject_name|capitalize }}</a>
+        {% endif %}
+        
+        <div class="lesson-text">
+            {# Iteramos sobre los nuevos content_blocks que vienen del archivo JSON #}
+            {% for block in lesson.content_blocks %}
+                {% if block.type == 'html' %}
+                    {# Para bloques de tipo HTML, renderizamos el contenido de forma segura #}
+                    {# El filtro |safe es crucial para que el navegador interprete las etiquetas HTML (<h1>, <p>, <img>, etc.) #}
+                    {{ block.content|safe }}
+                {% elif block.type == 'canvas' %}
+                    {# Para bloques de tipo Canvas, creamos el elemento <canvas> con su ID único #}
+                    {# El JavaScript de abajo se encargará de dibujar en este canvas #}
+                    <div class="canvas-wrapper">
+                        <canvas id="{{ block.canvas_id }}" width="500" height="300"></canvas>
+                    </div>
+                {% endif %}
+            {% endfor %}
         </div>
+    </article>
+
+    <div class="lesson-navigation">
+        {% if prev_lesson %}
+            <a href="{{ url_for('view_lesson', subject_slug=subject_name, lesson_slug=prev_lesson.slug) }}" class="nav-button prev-button">
+                &larr; Lección Anterior
+            </a>
+        {% endif %}
+        {% if next_lesson %}
+            <a href="{{ url_for('view_lesson', subject_slug=subject_name, lesson_slug=next_lesson.slug) }}" class="nav-button next-button">
+                Siguiente Lección &rarr;
+            </a>
+        {% endif %}
     </div>
+</div>
+
+<!-- ========================================================== -->
+<!-- === SCRIPT JAVASCRIPT ESPECÍFICO PARA ESTA LECCIÓN === -->
+<!-- ========================================================== -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Objeto que funciona como un diccionario de funciones para dibujar en los canvas.
+    // La clave es el nombre del script definido en el JSON.
+    const canvasPainters = {
+        
+        // Función para dibujar el diagrama básico de un vector.
+        drawVectorDiagram: (canvasId) => {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const cw = canvas.width;
+            const ch = canvas.height;
+            const origin = { x: 50, y: ch - 50 };
+
+            // Dibujar ejes X e Y
+            ctx.beginPath();
+            ctx.moveTo(origin.x, 0); ctx.lineTo(origin.x, ch);
+            ctx.moveTo(0, origin.y); ctx.lineTo(cw, origin.y);
+            ctx.strokeStyle = '#ccc';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+            ctx.font = '12px Poppins';
+            ctx.fillStyle = '#6c757d';
+            ctx.fillText('Y', origin.x + 5, 12);
+            ctx.fillText('X', cw - 15, origin.y - 5);
+
+            // Dibujar el vector principal
+            const vx = 200, vy = -150;
+            ctx.beginPath();
+            ctx.moveTo(origin.x, origin.y);
+            ctx.lineTo(origin.x + vx, origin.y + vy);
+            ctx.strokeStyle = '#4A90E2';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+            
+            // Dibujar la punta de la flecha
+            ctx.save();
+            ctx.translate(origin.x + vx, origin.y + vy);
+            ctx.rotate(Math.atan2(vy, vx));
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(-10, -5);
+            ctx.lineTo(-10, 5);
+            ctx.closePath();
+            ctx.fillStyle = '#4A90E2';
+            ctx.fill();
+            ctx.restore();
+            
+            ctx.font = '16px Poppins';
+            ctx.fillStyle = 'black';
+            ctx.fillText('v⃗', origin.x + vx / 2, origin.y + vy / 2 - 10);
+        },
+
+        // Función para dibujar la suma de dos vectores.
+        drawVectorSum: (canvasId, data) => {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const scale = 40; // Píxeles por unidad
+            const origin = { x: 50, y: canvas.height - 50 };
+            
+            const a = {x: data.vectorA[0] * scale, y: -data.vectorA[1] * scale};
+            const b = {x: data.vectorB[0] * scale, y: -data.vectorB[1] * scale};
+            const c = {x: a.x + b.x, y: a.y + b.y};
+
+            // Dibujar ejes
+            ctx.beginPath();
+            ctx.moveTo(origin.x, 0); ctx.lineTo(origin.x, canvas.height);
+            ctx.moveTo(0, origin.y); ctx.lineTo(canvas.width, origin.y);
+            ctx.strokeStyle = '#ccc';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+
+            // Función interna para dibujar una flecha
+            const drawArrow = (from, to, color) => {
+                ctx.beginPath();
+                ctx.moveTo(from.x, from.y);
+                ctx.lineTo(to.x, to.y);
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 3;
+                ctx.stroke();
+                // Dibujar punta de flecha
+                ctx.save();
+                ctx.translate(to.x, to.y);
+                ctx.rotate(Math.atan2(to.y - from.y, to.x - from.x));
+                ctx.beginPath();
+                ctx.moveTo(0, 0); ctx.lineTo(-10, -5); ctx.lineTo(-10, 5);
+                ctx.closePath();
+                ctx.fillStyle = color;
+                ctx.fill();
+                ctx.restore();
+            };
+            
+            // Dibujar los tres vectores
+            drawArrow(origin, {x: origin.x + a.x, y: origin.y + a.y}, '#F5A623'); // Vector a (naranja)
+            drawArrow({x: origin.x + a.x, y: origin.y + a.y}, {x: origin.x + c.x, y: origin.y + c.y}, '#50E3C2'); // Vector b (verde)
+            drawArrow(origin, {x: origin.x + c.x, y: origin.y + c.y}, '#4A90E2'); // Vector c (azul, resultante)
+
+            // Añadir etiquetas
+            ctx.font = '16px Poppins';
+            ctx.fillStyle = 'black';
+            ctx.fillText('a⃗', origin.x + a.x / 2 - 15, origin.y + a.y / 2);
+            ctx.fillText('b⃗', origin.x + a.x + b.x / 2, origin.y + a.y + b.y / 2 + 15);
+            ctx.fillText('c⃗ = a⃗+b⃗', origin.x + c.x / 2, origin.y + c.y / 2 - 10);
+        }
+    };
+
+    // --- LÓGICA PRINCIPAL DEL SCRIPT ---
+    // Obtenemos los datos de la lección que Flask nos ha pasado.
+    // El filtro |tojson convierte el objeto Python en un objeto JSON seguro para JavaScript.
+    const lessonData = {{ lesson|tojson }};
+
+    // Verificamos que los datos y los bloques de contenido existan.
+    if (lessonData && lessonData.content_blocks) {
+        // Recorremos cada bloque de la lección.
+        lessonData.content_blocks.forEach(block => {
+            // Si el bloque es de tipo 'canvas' Y su script está definido en nuestro objeto 'canvasPainters'...
+            if (block.type === 'canvas' && block.script in canvasPainters) {
+                // ...llamamos a la función de dibujo correspondiente.
+                // Le pasamos el ID del canvas y cualquier dato extra (como los vectores para la suma).
+                canvasPainters[block.script](block.canvas_id, block.data);
+            }
+        });
+    }
+});
+</script>
 {% endblock %}
