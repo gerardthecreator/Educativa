@@ -1,0 +1,15 @@
+{
+ "title": "Introducción a los Vectores",
+ "subject": "Física",
+ "order": 1,
+ "summary": "Aprende qué son los vectores y cómo se utilizan para representar magnitudes físicas como la fuerza y la velocidad.",
+ "video_url": "https://www.youtube.com/embed/_k8h1FOJ_Es",
+ "content_html": [
+  "<p>Un <strong>vector</strong> es una herramienta matemática que se utiliza para describir magnitudes que tienen tanto una magnitud (o tamaño) como una dirección. Piensa en ello como una flecha.</p>",
+  "<p>Las partes clave de un vector son:</p>",
+  "<ul><li><strong>Módulo:</strong> La longitud de la flecha.</li><li><strong>Dirección:</strong> La orientación de la flecha.</li><li><strong>Sentido:</strong> Indicado por la punta de la flecha.</li></ul>",
+  "<img src='https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Vector_a.svg/320px-Vector_a.svg.png' alt='Diagrama de un vector' class='lesson-image'>",
+  "<h4>Ejemplos en Física</h4>",
+  "<p>La <strong>velocidad</strong> es un vector. No es lo mismo decir que un coche va a 80 km/h que decir que va a 80 km/h hacia el norte.</p>"
+ ]
+}

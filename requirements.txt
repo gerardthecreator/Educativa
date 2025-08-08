@@ -1,0 +1,10 @@
+# requirements.txt
+
+# El micro-framework principal para nuestra aplicación web
+Flask
+
+# Herramienta de seguridad para encriptar contraseñas
+werkzeug
+
+# Servidor de producción para desplegar la aplicación (necesario para Render)
+gunicorn

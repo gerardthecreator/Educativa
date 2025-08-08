@@ -1,0 +1,425 @@
+/* static/style.css (VERSIÓN PROFESIONAL) */
+
+/* --- 1. Fuentes e Importaciones --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
+
+/* --- 2. Variables de Diseño (Tema Moderno) --- */
+:root {
+    --font-primary: 'Poppins', sans-serif;
+    --font-display: 'Montserrat', sans-serif;
+    
+    --color-bg: #F8F9FA;
+    --color-surface: #FFFFFF;
+    --color-primary: #4A90E2; /* Un azul más moderno */
+    --color-primary-dark: #357ABD;
+    --color-secondary: #50E3C2; /* Un toque de menta */
+    --color-text: #212529;
+    --color-text-muted: #6C757D;
+    --color-border: #E9ECEF;
+    --color-success: #28a745;
+    --color-error: #dc3545;
+    --color-info: #17a2b8;
+
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+    --border-radius: 12px;
+}
+
+/* --- 3. Reseteo y Estilos Base --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-primary);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.7;
+    font-size: 16px;
+}
+
+/* --- 4. Cabecera y Navegación --- */
+header {
+    background-color: var(--color-surface);
+    padding: 1rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow-sm);
+    border-bottom: 1px solid var(--color-border);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+header .logo {
+    font-family: var(--font-display);
+    color: var(--color-primary);
+    font-size: 1.5rem;
+    text-decoration: none;
+}
+
+header nav a {
+    color: var(--color-text-muted);
+    text-decoration: none;
+    margin-left: 2rem;
+    font-weight: 600;
+    transition: color 0.3s ease;
+    padding: 0.5rem 0;
+    border-bottom: 2px solid transparent;
+}
+
+header nav a:hover, header nav a.active {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+}
+
+header nav .logout-button {
+    background-color: transparent;
+    color: var(--color-error);
+    border: 1px solid var(--color-error);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+header nav .logout-button:hover {
+    background-color: var(--color-error);
+    color: white;
+}
+
+
+/* --- 5. Contenido Principal y Formularios --- */
+main {
+    max-width: 1100px;
+    margin: 3rem auto;
+    padding: 0 2rem;
+}
+
+form {
+    background-color: var(--color-surface);
+    padding: 2.5rem 3rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+    max-width: 450px;
+    margin: 4rem auto;
+    border-top: 5px solid var(--color-primary);
+}
+
+form h2 {
+    font-family: var(--font-display);
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    color: var(--color-text);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+}
+
+form input[type="text"],
+form input[type="password"] {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: var(--font-primary);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+form input[type="text"]:focus,
+form input[type="password"]:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+}
+
+form button {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(45deg, var(--color-primary), var(--color-primary-dark));
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    font-family: var(--font-primary);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: var(--shadow-sm);
+}
+
+form button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.auth-link {
+    text-align: center;
+    margin-top: 2rem;
+    color: var(--color-text-muted);
+}
+.auth-link a {
+    color: var(--color-primary);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+/* --- 6. Mensajes Flash (Alertas) --- */
+.flash {
+    padding: 1rem 1.5rem;
+    margin: 0 auto 2rem auto;
+    border-radius: var(--border-radius);
+    text-align: center;
+    max-width: 800px;
+    font-weight: 600;
+    box-shadow: var(--shadow-sm);
+}
+.flash.success { background-color: #e9f7ef; color: #208e45; }
+.flash.error   { background-color: #fce8e6; color: #d93025; }
+.flash.info    { background-color: #e7f3fe; color: #1967d2; }
+
+/* --- 7. Dashboard --- */
+.dashboard-header {
+    text-align: left;
+    margin-bottom: 3rem;
+}
+.dashboard-header h2 {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+}
+.dashboard-header .username {
+    background: linear-gradient(45deg, var(--color-primary), var(--color-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.dashboard-header p {
+    font-size: 1.1rem;
+    color: var(--color-text-muted);
+    max-width: 600px;
+}
+
+.section-title h3 {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 3px solid var(--color-secondary);
+    display: inline-block;
+    margin-bottom: 2rem;
+}
+
+.subjects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.subject-card {
+    background-color: var(--color-surface);
+    border-radius: var(--border-radius);
+    text-align: center;
+    text-decoration: none;
+    color: var(--color-text);
+    box-shadow: var(--shadow-md);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden; /* para que la barra de color no se salga */
+    border-top: 5px solid;
+    padding: 2rem;
+}
+/* Asignar colores diferentes a cada tarjeta */
+.subject-card[data-subject="Física"] { border-color: #4A90E2; }
+.subject-card[data-subject="Química"] { border-color: #50E3C2; }
+.subject-card[data-subject="Matemática"] { border-color: #F5A623; }
+
+.subject-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg);
+}
+
+.subject-card .subject-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.subject-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    color: var(--color-text);
+}
+
+/* --- 8. Pie de Página --- */
+footer {
+    text-align: center;
+    margin-top: 5rem;
+    padding: 2rem;
+    background-color: var(--color-surface);
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    border-top: 1px solid var(--color-border);
+}
+
+/* static/style.css (Añadir al final) */
+
+/* --- Estilos para las tarjetas de lecciones en el Dashboard --- */
+.lessons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+}
+
+.lesson-card {
+    background-color: var(--color-surface);
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    color: var(--color-text);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-left: 5px solid;
+}
+
+.lesson-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+.lesson-card[data-subject="Física"] { border-color: #4A90E2; }
+.lesson-card[data-subject="Química"] { border-color: #50E3C2; }
+.lesson-card[data-subject="Matemática"] { border-color: #F5A623; }
+
+.lesson-card-content {
+    padding: 1.5rem;
+}
+
+.lesson-card h4 {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.lesson-summary {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    flex-grow: 1; /* Hace que el texto ocupe el espacio disponible */
+}
+
+.lesson-card-footer {
+    background-color: #f8f9fa;
+    padding: 0.8rem 1.5rem;
+    border-top: 1px solid var(--color-border);
+    text-align: right;
+    font-weight: 600;
+    color: var(--color-primary);
+    border-bottom-left-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+}
+
+.no-lessons-message {
+    color: var(--color-text-muted);
+}
+
+/* --- Estilos para la página de la lección --- */
+.lesson-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.breadcrumbs {
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+}
+
+.breadcrumbs a {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+.breadcrumbs a:hover {
+    text-decoration: underline;
+}
+
+.lesson-content-box {
+    background-color: var(--color-surface);
+    padding: 2rem 3rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+}
+
+.lesson-title {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    line-height: 1.2;
+}
+
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* Proporción 16:9 */
+    height: 0;
+    overflow: hidden;
+    margin-bottom: 2rem;
+    border-radius: var(--border-radius);
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.lesson-text p, .lesson-text li {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.lesson-text h4 {
+    font-family: var(--font-display);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    border-bottom: 2px solid var(--color-border);
+    padding-bottom: 0.5rem;
+}
+
+.lesson-text .lesson-image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 2rem auto;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+}
+
+.lesson-navigation {
+    margin-top: 2rem;
+}
+
+.back-to-subject-button {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    background-color: var(--color-secondary-color);
+    color: var(--color-text);
+    text-decoration: none;
+    border-radius: 20px;
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+.back-to-subject-button:hover {
+    background-color: #e2e6ea;
+}
