@@ -143,11 +143,11 @@ def take_quiz(subject_slug, lesson_slug):
 
     if request.method == 'POST':
         score = 0
-        total_questions = len(quiz_data['questions'])
+        total_questions = len(quiz_data.get('questions', []))
         user_answers = request.form
         
-        for i, question in enumerate(quiz_data['questions']):
-            if user_answers.get(f'question-{i}') == question['answer']:
+        for i, question in enumerate(quiz_data.get('questions', [])):
+            if user_answers.get(f'question-{i}') == question.get('answer'):
                 score += 1
         
         try:
@@ -167,13 +167,16 @@ def take_quiz(subject_slug, lesson_slug):
         flash(f'¡Autoevaluación completada! Tu nota fue: {score} de {total_questions}.', 'success')
         return redirect(url_for('dashboard'))
 
-    # --- LÍNEA CLAVE MODIFICADA ---
-    # Usamos enumerate para pasar tanto el índice (i) como la pregunta (q) a la plantilla.
+    # --- LA SOLUCIÓN DEFINITIVA ESTÁ AQUÍ ---
+    # Convertimos el objeto enumerate a una lista explícita antes de pasarlo a la plantilla.
+    # Usamos .get('questions', []) para evitar errores si la clave 'questions' no existe.
+    enumerated_questions_list = list(enumerate(quiz_data.get('questions', [])))
+
     return render_template('quiz.html', 
                            lesson=lesson, 
                            quiz=quiz_data, 
                            subject_name=subject_slug, 
-                           enumerated_questions=enumerate(quiz_data['questions']))
+                           enumerated_questions=enumerated_questions_list)
 
 # --- Ejecución para entorno local ---
 if __name__ == '__main__':
