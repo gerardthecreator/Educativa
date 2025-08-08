@@ -1,19 +1,37 @@
-<!-- templates/layout.html (CORREGIDO Y COMPLETO) -->
+<!-- templates/layout.html (COMPLETO) -->
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plataforma Educativa</title>
+    <!-- El título se define en cada página, con un valor por defecto -->
+    <title>{{ lesson.title if lesson else 'Plataforma Educativa' }}</title>
     
-    <!-- 1. Cargar las fuentes desde Google Fonts (¡ESTO FALTABA!) -->
+    <!-- Cargar las fuentes desde Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
 
-    <!-- 2. Enlazar con nuestro archivo de estilos CSS (¡ESTO TAMBIÉN FALTABA!) -->
-    <!-- url_for('static', ...) le dice a Flask que busque el archivo en la carpeta 'static' -->
+    <!-- Enlazar con nuestro archivo de estilos CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- === CONFIGURACIÓN Y SCRIPT PARA MATHJAX V3 === -->
+    <script>
+        MathJax = {
+          tex: {
+            // Define los delimitadores para las ecuaciones en línea y en bloque
+            inlineMath: [['$', '$'], ['\\(', '\\)']],
+            displayMath: [['$$', '$$'], ['\\[', '\\]']]
+          },
+          svg: {
+            // Mejora el rendimiento del renderizado de las fuentes SVG
+            fontCache: 'global'
+          }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- === FIN DE LA SECCIÓN DE MATHJAX === -->
 </head>
 <body>
     <header>
@@ -30,7 +48,7 @@
     </header>
     
     <main>
-        <!-- Aquí se mostrarán los mensajes flash (errores, éxito, etc.) -->
+        <!-- Mostrar mensajes flash (errores, éxito, etc.) -->
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 <div class="flash-messages">
@@ -41,7 +59,7 @@
             {% endif %}
         {% endwith %}
 
-        <!-- El contenido específico de cada página (login, register, dashboard) se insertará aquí -->
+        <!-- Aquí se insertará el contenido de las otras páginas (login, register, dashboard, lesson) -->
         {% block content %}{% endblock %}
     </main>
     
@@ -50,4 +68,4 @@
     </footer>
 
 </body>
-</html>
+    </html>
