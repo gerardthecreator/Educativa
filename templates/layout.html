@@ -1,42 +1,43 @@
-<!-- templates/layout.html (COMPLETO) -->
+<!-- templates/layout.html -->
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- El título se define en cada página, con un valor por defecto -->
+    
+    <!-- El título cambiará dinámicamente si estás en una lección -->
     <title>{{ lesson.title if lesson else 'Plataforma Educativa' }}</title>
     
-    <!-- Cargar las fuentes desde Google Fonts -->
+    <!-- 1. Cargar las fuentes desde Google Fonts (Anton, Oswald, Roboto) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
-
-    <!-- Enlazar con nuestro archivo de estilos CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- 2. Enlazar con nuestro archivo de estilos CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
-    <!-- === CONFIGURACIÓN Y SCRIPT PARA MATHJAX V3 === -->
+    <!-- 3. Scripts para renderizar ecuaciones con MathJax V3 -->
     <script>
         MathJax = {
           tex: {
-            // Define los delimitadores para las ecuaciones en línea y en bloque
             inlineMath: [['$', '$'], ['\\(', '\\)']],
             displayMath: [['$$', '$$'], ['\\[', '\\]']]
           },
           svg: {
-            // Mejora el rendimiento del renderizado de las fuentes SVG
             fontCache: 'global'
           }
         };
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <!-- === FIN DE LA SECCIÓN DE MATHJAX === -->
 </head>
 <body>
+
+    <!-- Cabecera de la página -->
     <header>
-        <h1><a href="{{ url_for('index') }}" class="logo">Plataforma Educativa</a></h1>
+        <a href="{{ url_for('dashboard') }}" class="logo">EDU-PLATFORM</a>
         <nav>
+            {# Lógica para mostrar enlaces diferentes si el usuario ha iniciado sesión o no #}
             {% if 'user_id' in session %}
                 <a href="{{ url_for('dashboard') }}">Dashboard</a>
                 <a href="{{ url_for('logout') }}" class="logout-button">Cerrar Sesión ({{ session.username }})</a>
@@ -47,25 +48,29 @@
         </nav>
     </header>
     
+    <!-- Contenedor principal donde se cargará el contenido de cada página -->
     <main>
-        <!-- Mostrar mensajes flash (errores, éxito, etc.) -->
+        {# Sección para mostrar mensajes de alerta (flash messages) #}
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 <div class="flash-messages">
                 {% for category, message in messages %}
+                    {# La clase de la categoría (error, success, info) se usará para el estilo #}
                     <div class="flash {{ category }}">{{ message }}</div>
                 {% endfor %}
                 </div>
             {% endif %}
         {% endwith %}
 
-        <!-- Aquí se insertará el contenido de las otras páginas (login, register, dashboard, lesson) -->
+        {# Este es el bloque que será reemplazado por el contenido de login.html, dashboard.html, etc. #}
         {% block content %}{% endblock %}
     </main>
     
+    <!-- Pie de página -->
     <footer>
-        <p>&copy; 2024 Plataforma Educativa. Creado con Flask y mucho ☕.</p>
+        <p>&copy; 2025 Gerardo Rondón ᕙ⁠(⁠ ⁠ ⁠•⁠ ⁠‿⁠ ⁠•⁠ ⁠ ⁠)⁠ᕗ</p>
+        <p>Proyecto independiente, para brindar ayuda sin fines de lucro.</p>
     </footer>
 
 </body>
-    </html>
+</html>
