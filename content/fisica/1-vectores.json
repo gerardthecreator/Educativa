@@ -1,13 +1,13 @@
 {
-  "title": "Vectores: Fundamentos Interactivos",
+  "title": "Vectores: Fundamentos y Aplicaciones",
   "subject": "Física",
   "order": 1,
-  "summary": "Una guía completa sobre vectores, con ecuaciones renderizadas por MathJax y visualizaciones interactivas con Canvas.",
+  "summary": "Una guía completa sobre vectores, con ecuaciones, ejemplos prácticos y una autoevaluación para medir tu conocimiento.",
   "video_url": "https://www.youtube.com/embed/A40i3_63A2g",
   "content_blocks": [
     {
       "type": "html",
-      "content": "<p>En física, un <strong>vector</strong> es un objeto matemático que posee <strong>magnitud (módulo), dirección y sentido</strong>. Lo usamos para representar cantidades que no solo tienen un 'cuánto', sino también un 'hacia dónde'.</p><p>Matemáticamente, un vector en 2D se representa como $$\\vec{v} = (v_x, v_y)$$ donde $v_x$ y $v_y$ son sus componentes en los ejes X e Y.</p>"
+      "content": "<h3>¿Qué es un Vector?</h3><p>En física, no todas las cantidades son iguales. Algunas, como la temperatura o la masa, quedan perfectamente descritas con un solo número (25°C, 80 kg). A estas las llamamos <strong>escalares</strong>. Sin embargo, otras cantidades necesitan más información para tener sentido. Aquí es donde entran los <strong>vectores</strong>.</p><p>Un vector es un objeto matemático que posee <strong>magnitud (o módulo), dirección y sentido</strong>. Es la herramienta perfecta para representar cantidades que no solo tienen un 'cuánto', sino también un 'hacia dónde'. Visualmente, lo representamos como una flecha.</p><p>Matemáticamente, un vector en 2D se representa como $$\\vec{v} = (v_x, v_y)$$ donde $v_x$ y $v_y$ son sus componentes en los ejes X e Y.</p>"
     },
     {
       "type": "canvas",
@@ -20,7 +20,7 @@
     },
     {
       "type": "html",
-      "content": "<h3>Ejemplo 1: Suma de Vectores</h3><p>Si tenemos dos vectores, $\\vec{a} = (2, 3)$ y $\\vec{b} = (4, 1)$, su suma es un nuevo vector $\\vec{c}$ que se obtiene sumando sus componentes correspondientes:</p>$$\\vec{c} = \\vec{a} + \\vec{b} = (2+4, 3+1) = (6, 4)$$<p>Visualicemos esta suma:</p>"
+      "content": "<h3>Ejemplo 1: Suma de Vectores</h3><p>Si tenemos dos vectores, $\\vec{a} = (2, 3)$ y $\\vec{b} = (4, 1)$, su suma es un nuevo vector $\\vec{c}$ que se obtiene sumando sus componentes correspondientes:</p>$$\\vec{c} = \\vec{a} + \\vec{b} = (2+4, 3+1) = (6, 4)$$<p>Visualicemos esta suma gráficamente:</p>"
     },
     {
       "type": "canvas",
@@ -35,5 +35,80 @@
       "type": "html",
       "content": "<h3>Ejemplo 2: Producto Escalar</h3><p>El producto escalar (o producto punto) de dos vectores nos da un número (un escalar) y se relaciona con el ángulo entre ellos. Se calcula como:</p>$$\\vec{a} \\cdot \\vec{b} = a_x b_x + a_y b_y$$<p>Para nuestros vectores de ejemplo, el producto escalar sería: $\\vec{a} \\cdot \\vec{b} = (2)(4) + (3)(1) = 8 + 3 = 11$.</p>"
     }
-  ]
+  ],
+  "quiz": {
+    "title": "Autoevaluación: Fundamentos de Vectores",
+    "questions": [
+      {
+        "question_text": "Si un coche se desplaza 3 km al Este y luego 4 km al Norte, ¿cuál es la magnitud de su vector desplazamiento total?",
+        "options": [
+          "7 km",
+          "1 km",
+          "5 km",
+          "12 km"
+        ],
+        "answer": "5 km"
+      },
+      {
+        "question_text": "¿Cuál de las siguientes magnitudes físicas es un escalar (no necesita dirección)?",
+        "options": [
+          "Velocidad",
+          "Fuerza",
+          "Masa",
+          "Aceleración"
+        ],
+        "answer": "Masa"
+      },
+      {
+        "question_text": "La suma de los vectores $\\vec{a} = (1, 5)$ y $\\vec{b} = (3, -2)$ resulta en el vector:",
+        "options": [
+          "(4, 3)",
+          "(2, 7)",
+          "(-2, 3)",
+          "(4, 7)"
+        ],
+        "answer": "(4, 3)"
+      },
+      {
+        "question_text": "En la representación de una flecha, ¿qué componente del vector indica su valor numérico o 'tamaño'?",
+        "options": [
+          "La dirección",
+          "El sentido (la punta de la flecha)",
+          "El origen",
+          "El módulo (la longitud)"
+        ],
+        "answer": "El módulo (la longitud)"
+      },
+      {
+        "question_text": "Si un vector $\\vec{v}$ tiene componentes $(6, 8)$, ¿cuál es su módulo $|\\vec{v}|$?",
+        "options": [
+          "14",
+          "10",
+          "2",
+          "100"
+        ],
+        "answer": "10"
+      },
+      {
+        "question_text": "Si empujas una caja hacia el Norte con una fuerza de 10 N y un amigo la empuja hacia el Sur con una fuerza de 8 N, ¿cuál es el vector de la fuerza neta?",
+        "options": [
+          "18 N hacia el Norte",
+          "2 N hacia el Norte",
+          "2 N hacia el Sur",
+          "18 N hacia el Sur"
+        ],
+        "answer": "2 N hacia el Norte"
+      },
+      {
+        "question_text": "El producto escalar de los vectores $\\vec{a} = (2, 3)$ y $\\vec{b} = (4, -1)$ es:",
+        "options": [
+          "11",
+          "8",
+          "5",
+          "6"
+        ],
+        "answer": "5"
+      }
+    ]
+  }
 }
