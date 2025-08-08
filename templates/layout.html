@@ -1,23 +1,21 @@
-<!-- templates/layout.html -->
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- El título cambiará dinámicamente si estás en una lección -->
-    <title>{{ lesson.title if lesson else 'Plataforma Educativa' }}</title>
+    <!-- El título cambiará dinámicamente -->
+    <title>{{ lesson.title if lesson else 'panita.ciencia' }}</title>
     
-    <!-- 1. Cargar las fuentes desde Google Fonts (Anton, Oswald, Roboto) -->
+    <!-- Cargar las fuentes (Anton, Oswald, Roboto) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     
-    <!-- 2. Enlazar con nuestro archivo de estilos CSS -->
+    <!-- Enlazar con nuestro archivo de estilos CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
-    <!-- 3. Scripts para renderizar ecuaciones con MathJax V3 -->
+    <!-- Scripts para renderizar ecuaciones con MathJax V3 -->
     <script>
         MathJax = {
           tex: {
@@ -33,11 +31,9 @@
 </head>
 <body>
 
-    <!-- Cabecera de la página -->
     <header>
-        <a href="{{ url_for('dashboard') }}" class="logo">EDU-PLATFORM</a>
+        <a href="{{ url_for('dashboard') }}" class="logo">panita.ciencia</a>
         <nav>
-            {# Lógica para mostrar enlaces diferentes si el usuario ha iniciado sesión o no #}
             {% if 'user_id' in session %}
                 <a href="{{ url_for('dashboard') }}">Dashboard</a>
                 <a href="{{ url_for('logout') }}" class="logout-button">Cerrar Sesión ({{ session.username }})</a>
@@ -48,28 +44,23 @@
         </nav>
     </header>
     
-    <!-- Contenedor principal donde se cargará el contenido de cada página -->
     <main>
-        {# Sección para mostrar mensajes de alerta (flash messages) #}
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 <div class="flash-messages">
                 {% for category, message in messages %}
-                    {# La clase de la categoría (error, success, info) se usará para el estilo #}
                     <div class="flash {{ category }}">{{ message }}</div>
                 {% endfor %}
                 </div>
             {% endif %}
         {% endwith %}
 
-        {# Este es el bloque que será reemplazado por el contenido de login.html, dashboard.html, etc. #}
         {% block content %}{% endblock %}
     </main>
     
-    <!-- Pie de página -->
     <footer>
-        <p>&copy; 2025 Gerardo Rondón ᕙ⁠(⁠ ⁠ ⁠•⁠ ⁠‿⁠ ⁠•⁠ ⁠ ⁠)⁠ᕗ</p>
-        <p>Proyecto independiente, para brindar ayuda sin fines de lucro.</p>
+        <p>&copy; 2025 panita.ciencia.</p>
+        <p>Un proyecto de aprendizaje interactivo, sin fines de lucro</p>
     </footer>
 
 </body>
