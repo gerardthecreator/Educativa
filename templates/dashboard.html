@@ -1,5 +1,3 @@
-<!-- templates/dashboard.html -->
-
 {% extends 'layout.html' %}
 
 {% block content %}
@@ -12,7 +10,6 @@
         {% for subject_name, lessons in subjects.items()|sort %}
             <section class="subject-section" id="{{ subject_name }}">
                 <div class="section-title">
-                    {# El |capitalize convierte 'fisica' en 'Física' #}
                     <h3>{{ subject_name|capitalize }}</h3>
                 </div>
 
@@ -27,8 +24,14 @@
                                     <h4>{{ lesson.title }}</h4>
                                     <p class="lesson-summary">{{ lesson.summary }}</p>
                                 </div>
+                                
                                 <div class="lesson-card-footer">
-                                    <span>Empezar Lección &rarr;</span>
+                                    {# Muestra la nota si existe, si no, el texto para empezar #}
+                                    {% if lesson.slug in grades %}
+                                        <span class="grade-badge">Nota: {{ grades[lesson.slug].score }}/{{ grades[lesson.slug].total }}</span>
+                                    {% else %}
+                                        <span>Empezar Lección &rarr;</span>
+                                    {% endif %}
                                 </div>
                             </a>
                         {% endfor %}
