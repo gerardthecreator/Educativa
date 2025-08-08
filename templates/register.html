@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<h2>Crear una Cuenta Nueva</h2>
+<form method="post" action="{{ url_for('register') }}">
+ <div class="form-group">
+  <label for="username">Nombre de Usuario:</label>
+  <input type="text" id="username" name="username" required>
+ </div>
+ <div class="form-group">
+  <label for="password">Contraseña:</label>
+  <input type="password" id="password" name="password" required>
+ </div>
+ <button type="submit">Registrarse</button>
+</form>
+<p class="auth-link">¿Ya tienes una cuenta? <a href="{{ url_for('login') }}">Inicia sesión aquí</a>.</p>
+{% endblock %}

@@ -1,0 +1,44 @@
+<!-- templates/lesson.html -->
+
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div class="lesson-container">
+        <!-- "Migas de pan" para que el usuario sepa dónde está -->
+        <nav class="breadcrumbs">
+            <a href="{{ url_for('dashboard') }}">Dashboard</a> &raquo;
+            <a href="{{ url_for('dashboard') }}#{{ subject_name }}">{{ subject_name|capitalize }}</a> &raquo;
+            <span>{{ lesson.title }}</span>
+        </nav>
+
+        <article class="lesson-content-box">
+            <h1 class="lesson-title">{{ lesson.title }}</h1>
+            
+            <!-- Contenedor de video (si existe en el JSON) -->
+            {% if lesson.video_url %}
+                <div class="video-container">
+                    <iframe 
+                        src="{{ lesson.video_url }}" 
+                        title="Video de la lección: {{ lesson.title }}" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            {% endif %}
+            
+            <!-- Contenido HTML de la lección -->
+            <div class="lesson-text">
+                {# El filtro |safe es MUY IMPORTANTE. Le dice a Flask que el HTML es seguro y que debe renderizarlo como tal. #}
+                {% for html_block in lesson.content_html %}
+                    {{ html_block|safe }}
+                {% endfor %}
+            </div>
+        </article>
+
+        <div class="lesson-navigation">
+            {# Aquí podríamos añadir botones de "Lección Anterior" y "Siguiente Lección" en el futuro #}
+            <a href="{{ url_for('dashboard') }}#{{ subject_name }}" class="back-to-subject-button">&larr; Volver a {{ subject_name|capitalize }}</a>
+        </div>
+    </div>
+{% endblock %}

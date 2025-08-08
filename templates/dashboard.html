@@ -1,0 +1,47 @@
+<!-- templates/dashboard.html -->
+
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div class="dashboard-header">
+        <h2>Bienvenido de nuevo, <span class="username">{{ session.username }}</span>!</h2>
+        <p>El conocimiento te espera. Elige una materia para comenzar tu viaje de aprendizaje.</p>
+    </div>
+
+    {% if subjects %}
+        {% for subject_name, lessons in subjects.items()|sort %}
+            <section class="subject-section" id="{{ subject_name }}">
+                <div class="section-title">
+                    {# El |capitalize convierte 'fisica' en 'Física' #}
+                    <h3>{{ subject_name|capitalize }}</h3>
+                </div>
+
+                {% if lessons %}
+                    <div class="lessons-grid">
+                        {% for lesson in lessons %}
+                            <a href="{{ url_for('view_lesson', subject_slug=subject_name, lesson_slug=lesson.slug) }}" 
+                               class="lesson-card" 
+                               data-subject="{{ subject_name|capitalize }}">
+                                
+                                <div class="lesson-card-content">
+                                    <h4>{{ lesson.title }}</h4>
+                                    <p class="lesson-summary">{{ lesson.summary }}</p>
+                                </div>
+                                <div class="lesson-card-footer">
+                                    <span>Empezar Lección &rarr;</span>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="no-lessons-message">Aún no hay lecciones disponibles para esta materia.</p>
+                {% endif %}
+            </section>
+        {% endfor %}
+    {% else %}
+        <div class="no-content-container">
+            <h3>¡Sitio en Construcción!</h3>
+            <p>El contenido educativo está siendo preparado. Vuelve pronto para encontrar nuevas lecciones.</p>
+        </div>
+    {% endif %}
+{% endblock %}
