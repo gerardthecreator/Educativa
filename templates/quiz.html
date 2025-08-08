@@ -1,7 +1,10 @@
+<!-- templates/quiz.html (CORREGIDO Y FUNCIONAL) -->
+
 {% extends 'layout.html' %}
 
 {% block content %}
 <div class="quiz-container">
+    <!-- Navegación "Migas de pan" para que el usuario sepa dónde está -->
     <nav class="breadcrumbs">
         <a href="{{ url_for('dashboard') }}">Dashboard</a> &raquo;
         <a href="{{ url_for('view_lesson', subject_slug=subject_name, lesson_slug=lesson.slug) }}">{{ lesson.title }}</a> &raquo;
@@ -10,23 +13,35 @@
     
     <div class="quiz-header">
         <h2>{{ quiz.title }}</h2>
-        <p>Pon a prueba tus conocimientos sobre la lección. ¡Mucha suerte!</p>
+        <p>Pon a prueba tus conocimientos sobre la lección. ¡Mucha suerte, panita!</p>
     </div>
 
-    <form method="POST" class="quiz-form">
+    <form method="POST" action="{{ url_for('take_quiz', subject_slug=subject_name, lesson_slug=lesson.slug) }}" class="quiz-form">
+        
+        {# Iteramos sobre cada pregunta en la lista de preguntas del quiz #}
         {% for question in quiz.questions %}
-        <div class="question-block">
-            <p class="question-text"><strong>{{ loop.index }}.</strong> {{ question.text|safe }}</p>
-            <div class="options-group">
-                {% for option in question.options %}
-                <label class="option-label">
-                    <input type="radio" name="question-{{ loop.index0 }}" value="{{ option }}" required>
-                    <span>{{ option }}</span>
-                </label>
-                {% endfor %}
+        
+            <div class="question-block">
+                
+                {# ESTA ES LA LÍNEA CORREGIDA: Muestra el texto de la pregunta actual #}
+                <p class="question-text">
+                    <strong>Pregunta {{ loop.index }}:</strong> {{ question.text|safe }}
+                </p>
+                
+                <div class="options-group">
+                    {# Iteramos sobre cada opción para la pregunta actual #}
+                    {% for option in question.options %}
+                    <label class="option-label">
+                        {# El name es único para cada pregunta, usando el índice del bucle exterior #}
+                        <input type="radio" name="question-{{ loop.parent.loop.index0 }}" value="{{ option }}" required>
+                        <span>{{ option }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
             </div>
-        </div>
+        
         {% endfor %}
+        
         <button type="submit" class="btn btn-primary quiz-submit-btn">Entregar Autoevaluación</button>
     </form>
 </div>
