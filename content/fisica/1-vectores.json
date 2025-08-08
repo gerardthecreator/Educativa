@@ -1,15 +1,39 @@
 {
- "title": "Introducción a los Vectores",
- "subject": "Física",
- "order": 1,
- "summary": "Aprende qué son los vectores y cómo se utilizan para representar magnitudes físicas como la fuerza y la velocidad.",
- "video_url": "https://www.youtube.com/embed/_k8h1FOJ_Es",
- "content_html": [
-  "<p>Un <strong>vector</strong> es una herramienta matemática que se utiliza para describir magnitudes que tienen tanto una magnitud (o tamaño) como una dirección. Piensa en ello como una flecha.</p>",
-  "<p>Las partes clave de un vector son:</p>",
-  "<ul><li><strong>Módulo:</strong> La longitud de la flecha.</li><li><strong>Dirección:</strong> La orientación de la flecha.</li><li><strong>Sentido:</strong> Indicado por la punta de la flecha.</li></ul>",
-  "<img src='https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Vector_a.svg/320px-Vector_a.svg.png' alt='Diagrama de un vector' class='lesson-image'>",
-  "<h4>Ejemplos en Física</h4>",
-  "<p>La <strong>velocidad</strong> es un vector. No es lo mismo decir que un coche va a 80 km/h que decir que va a 80 km/h hacia el norte.</p>"
- ]
+  "title": "Vectores: Fundamentos Interactivos",
+  "subject": "Física",
+  "order": 1,
+  "summary": "Una guía completa sobre vectores, con ecuaciones renderizadas por MathJax y visualizaciones interactivas con Canvas.",
+  "video_url": "https://www.youtube.com/embed/A40i3_63A2g",
+  "content_blocks": [
+    {
+      "type": "html",
+      "content": "<p>En física, un <strong>vector</strong> es un objeto matemático que posee <strong>magnitud (módulo), dirección y sentido</strong>. Lo usamos para representar cantidades que no solo tienen un 'cuánto', sino también un 'hacia dónde'.</p><p>Matemáticamente, un vector en 2D se representa como $$\\vec{v} = (v_x, v_y)$$ donde $v_x$ y $v_y$ son sus componentes en los ejes X e Y.</p>"
+    },
+    {
+      "type": "canvas",
+      "canvas_id": "vector-diagram",
+      "script": "drawVectorDiagram"
+    },
+    {
+      "type": "html",
+      "content": "<ul><li><strong>Módulo:</strong> Es la longitud de la flecha. Se calcula con el Teorema de Pitágoras: $$|\\vec{v}| = \\sqrt{v_x^2 + v_y^2}$$</li><li><strong>Dirección:</strong> Es el ángulo que forma con el eje X, calculado como $$\\theta = \\arctan\\left(\\frac{v_y}{v_x}\\right)$$</li></ul>"
+    },
+    {
+      "type": "html",
+      "content": "<h3>Ejemplo 1: Suma de Vectores</h3><p>Si tenemos dos vectores, $\\vec{a} = (2, 3)$ y $\\vec{b} = (4, 1)$, su suma es un nuevo vector $\\vec{c}$ que se obtiene sumando sus componentes correspondientes:</p>$$\\vec{c} = \\vec{a} + \\vec{b} = (2+4, 3+1) = (6, 4)$$<p>Visualicemos esta suma:</p>"
+    },
+    {
+      "type": "canvas",
+      "canvas_id": "vector-sum-canvas",
+      "script": "drawVectorSum",
+      "data": {
+        "vectorA": [2, 3],
+        "vectorB": [4, 1]
+      }
+    },
+    {
+      "type": "html",
+      "content": "<h3>Ejemplo 2: Producto Escalar</h3><p>El producto escalar (o producto punto) de dos vectores nos da un número (un escalar) y se relaciona con el ángulo entre ellos. Se calcula como:</p>$$\\vec{a} \\cdot \\vec{b} = a_x b_x + a_y b_y$$<p>Para nuestros vectores de ejemplo, el producto escalar sería: $\\vec{a} \\cdot \\vec{b} = (2)(4) + (3)(1) = 8 + 3 = 11$.</p>"
+    }
+  ]
 }
