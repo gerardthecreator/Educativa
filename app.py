@@ -1,4 +1,4 @@
-# app.py (VERSIÓN FINAL Y VERIFICADA)
+# app.py
 
 import os
 import json
@@ -17,9 +17,11 @@ if not os.path.exists(db_path):
 else:
     print("Base de datos ya existente. Saltando inicialización.")
 
+
 # --- CREACIÓN DE LA APLICACIÓN FLASK ---
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'panita-ciencia-secret-key-local-dev')
+
 
 # --- FUNCIÓN AUXILIAR PARA CARGAR CONTENIDO ---
 def load_content():
@@ -127,13 +129,11 @@ def take_quiz(subject_slug, lesson_slug):
     
     all_content = load_content()
     
-    # --- LA LÓGICA DE BÚSQUEDA CORRECTA ESTÁ AQUÍ ---
     subject_lessons = all_content.get(subject_slug)
     if not subject_lessons:
-        abort(404) 
+        abort(404)
     
     lesson = next((l for l in subject_lessons if l.get('slug') == lesson_slug), None)
-    # --- FIN DE LA LÓGICA CORRECTA ---
     
     if not lesson or 'quiz' not in lesson:
         flash('Esta lección no tiene una autoevaluación asociada.', 'info')
@@ -167,7 +167,13 @@ def take_quiz(subject_slug, lesson_slug):
         flash(f'¡Autoevaluación completada! Tu nota fue: {score} de {total_questions}.', 'success')
         return redirect(url_for('dashboard'))
 
-    return render_template('quiz.html', lesson=lesson, quiz=quiz_data, subject_name=subject_slug)
+    # --- LÍNEA CLAVE MODIFICADA ---
+    # Usamos enumerate para pasar tanto el índice (i) como la pregunta (q) a la plantilla.
+    return render_template('quiz.html', 
+                           lesson=lesson, 
+                           quiz=quiz_data, 
+                           subject_name=subject_slug, 
+                           enumerated_questions=enumerate(quiz_data['questions']))
 
 # --- Ejecución para entorno local ---
 if __name__ == '__main__':
